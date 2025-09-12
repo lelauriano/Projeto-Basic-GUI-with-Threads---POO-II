@@ -27,37 +27,3 @@ e) Construir um diálogo de ajuda personalizado com imagens, texto rolável e bo
 A aplicação deve conter um diálogo de ajuda acessível pelo menu "Ajuda", incluindo
 imagens, texto rolável e botões interativos.
 
-Estrutura da Interface
-A interface do programa deve apresentar a telas, menus e submenus EXATAMENTE como
-descritos a seguir:
-
-Janela Principal (`JFrame`): A janela principal deve conter barra de título, ícone da aplicação,
-barra de status e menus.
-Barra de Menus (`JMenuBar`): Deve conter três menus principais: Arquivo, Configuração e
-Ajuda.
-Menu Arquivo
-Abrir Arquivo: Abre um diálogo para selecionar um arquivo de texto e exibir seu
-conteúdo.
-Fechar Arquivo: Fecha o arquivo atualmente aberto e limpa a área de texto da tela.
--- separador --
-Sair: Encerra a aplicação.
-Menu Configuração
-Padrões: Permite escolher padrões para o comportamento dinâmico do fundo.
-Cores: Altera as cores do fundo dinâmico.
-Velocidade: Ajusta a velocidade das animações do fundo.
-imagens, texto rolável e botões interativos.
-Menu Ajuda
-Ajuda: Abre um diálogo personalizado com explicações sobre a aplicação.
-Sobre: Mostra informações sobre a aplicação (como versão e autores).
-
-Requisitos Técnicos
-• Interface Gráfica: Implementar a interface utilizando `JFrame`, `JMenu`, `JMenuItem`,
-`JPanel`, `JFileChooser` e outros componentes gráficos.
-• Ouvintes e Eventos: Demonstrar o uso de ouvintes, como `ActionListener` para capturar e
-tratar eventos do usuário.
-• Manipulação de Arquivos: Ler arquivos de texto e exibir o conteúdo de forma organizada na
-janela principal.
-• Animação e Threads: Implementar uma animação no fundo da janela que seja executada em
-uma thread separada, controlável pelos menus de configuração.
-• Diálogo Personalizado: Criar um diálogo de ajuda com imagens, texto rolável (`JScrollPane`) e
-botões, utilizando `JDialog'.
