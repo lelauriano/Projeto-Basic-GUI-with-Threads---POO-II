@@ -1,16 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
 
-// ----------------- AnimatedPanel -----------------
 public class AnimatedPanel extends JPanel implements Runnable {
 
     private volatile String pattern = "Circles";
     private volatile Color color = Color.CYAN;
-<<<<<<< HEAD
-    private volatile int speed = 50; // ms por frame
-=======
     private volatile int speed = 50;//// ms per frame
->>>>>>> minha-nova-branch
 
     private volatile boolean running = false;
     private Thread animationThread;
@@ -20,20 +15,11 @@ public class AnimatedPanel extends JPanel implements Runnable {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 if (e.getButton() == java.awt.event.MouseEvent.BUTTON1) {
-<<<<<<< HEAD
-                    setRandomColor(); // clique esquerdo → cor aleatória
-                } else if (e.getButton() == java.awt.event.MouseEvent.BUTTON3) {
-                    // clique direito → alterna padrão Circles/Squares
-                    setPattern(getPattern().equals("Circles") ? "Squares" : "Circles");
-                }
-                repaint(); // repinta imediatamente
-=======
                     setRandomColor(); // left click → random color
                 } else if (e.getButton() == java.awt.event.MouseEvent.BUTTON3) {
                     setPattern(getPattern().equals("Circles") ? "Squares" : "Circles");// right click → toggle Circles/Squares pattern
                 }
                 repaint(); 
->>>>>>> minha-nova-branch
             }
         });
     }
@@ -75,11 +61,7 @@ public class AnimatedPanel extends JPanel implements Runnable {
         }
     }
 
-<<<<<<< HEAD
-    // --- Thread control ---
-=======
     //  control thread
->>>>>>> minha-nova-branch
     public void startAnimation() {
         if (animationThread == null || !running) {
             running = true;
@@ -95,11 +77,6 @@ public class AnimatedPanel extends JPanel implements Runnable {
             animationThread = null;
         }
     }
-<<<<<<< HEAD
-
-    // --- Getters / Setters ---
-=======
->>>>>>> minha-nova-branch
     public void setPattern(String newPattern) {
         this.pattern = newPattern;
     }
@@ -138,3 +115,4 @@ public class AnimatedPanel extends JPanel implements Runnable {
         return running;
     }
 }
+
