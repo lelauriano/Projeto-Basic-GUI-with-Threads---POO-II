@@ -1,36 +1,42 @@
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.util.Random;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 
 public class AnimatedPanel extends JPanel implements Runnable {
 
-    // --- PRIVATE ATTRIBUTES THAT DEFINE THE ANIMATION STATE ---
-    // The Configuration Menu will change these values.
-    private String pattern = "Circles";
-    private Color color = Color.CYAN;
-    private int speed = 50; // Interval in milliseconds
-    
-    private boolean running = false;
+    private volatile String pattern = "Circles";
+    private volatile Color color = Color.CYAN;
+    private volatile int speed = 50;//// ms per frame
+
+    private volatile boolean running = false;
     private Thread animationThread;
 
-    // ... (Constructor and other methods like run(), paintComponent(), etc.) ...
-    
+    public AnimatedPanel() {
+        this.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (e.getButton() == java.awt.event.MouseEvent.BUTTON1) {
+                    setRandomColor(); // left click → random color
+                } else if (e.getButton() == java.awt.event.MouseEvent.BUTTON3) {
+                    setPattern(getPattern().equals("Circles") ? "Squares" : "Circles");// right click → toggle Circles/Squares pattern
+                }
+                repaint(); 
+            }
+        });
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        Random rand = new Random();
+        java.util.Random rand = new java.util.Random();
 
-        // The drawing method USES the attributes 'color' and 'pattern'
         g2d.setColor(this.color);
+
         for (int i = 0; i < 50; i++) {
-            int x = rand.nextInt(getWidth());
-            int y = rand.nextInt(getHeight());
+            int x = rand.nextInt(Math.max(1, getWidth()));
+            int y = rand.nextInt(Math.max(1, getHeight()));
             int size = rand.nextInt(40) + 10;
-            
-            // Rendering changes based on the value of the 'pattern' attribute
+
             switch (this.pattern) {
                 case "Squares":
                     g2d.fillRect(x, y, size, size);
@@ -48,56 +54,64 @@ public class AnimatedPanel extends JPanel implements Runnable {
         while (running) {
             repaint();
             try {
-                // The thread USES the 'speed' attribute for the pause
                 Thread.sleep(this.speed);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
         }
     }
-    
+
+    //  control thread
     public void startAnimation() {
-        if (animationThread == null) {
+        if (animationThread == null || !running) {
             running = true;
             animationThread = new Thread(this);
             animationThread.start();
         }
     }
 
-    // --- PUBLIC METHODS TO CONTROL THE ANIMATION ---
-    // These are the methods that the Configuration Menu will call.
-    
-    /**
-     * Sets the pattern of the objects drawn in the animation.
-     * @param newPattern The name of the pattern (e.g., "Circles", "Squares").
-     */
+    public void stopAnimation() {
+        running = false;
+        if (animationThread != null) {
+            animationThread.interrupt();
+            animationThread = null;
+        }
+    }
     public void setPattern(String newPattern) {
         this.pattern = newPattern;
     }
 
-    /**
-     * Sets the base color of the objects in the animation.
-     * @param newColor The Color object to be used.
-     */
+    public String getPattern() {
+        return pattern;
+    }
+
     public void setColor(Color newColor) {
         if (newColor != null) {
             this.color = newColor;
         }
     }
 
-    /**
-     * Sets the animation speed.
-     * @param newSpeed The pause time in milliseconds between frames.
-     */
+    public Color getColor() {
+        return color;
+    }
+
+    public void setRandomColor() {
+        this.color = new Color(
+                (float) Math.random(),
+                (float) Math.random(),
+                (float) Math.random()
+        );
+    }
+
     public void setSpeed(int newSpeed) {
-        // Prevents a value too low that could overload the CPU
         this.speed = Math.max(10, newSpeed);
     }
-    /**
-     * Returns the current animation speed.
-     * @return speed in milliseconds
-     */
+
     public int getSpeed() {
-        return this.speed;
+        return speed;
+    }
+
+    public boolean isRunning() {
+        return running;
     }
 }
