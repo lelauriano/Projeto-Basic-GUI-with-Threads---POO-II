@@ -1,10 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
-<<<<<<< HEAD
-public class MainWindow {
-=======
+
 public class TestAnimated {
->>>>>>> minha-nova-branch
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Config Menu + AnimatedPanel Test");
