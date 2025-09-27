@@ -2,20 +2,28 @@ package help;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 
 public class HelpDialog {
 
-    // Help dialog
+    // Help dialog/
     public static void showHelp(JFrame parent) {
         JDialog dialog = new JDialog(parent, "Help", true);
         dialog.setSize(800, 500);
         dialog.setLayout(new BorderLayout());
         
         // Getting images from resources for HTML
-        String menuImg = HelpDialog.class.getResource("/menu.jpg").toExternalForm();
-        String settingsImg = HelpDialog.class.getResource("/settings.jpg").toExternalForm();
-        String helpImg = HelpDialog.class.getResource("/help.jpg").toExternalForm();
+        URL menuUrl = HelpDialog.class.getResource("/menu.jpg");
+        URL settingsUrl = HelpDialog.class.getResource("/settings.jpg");
+        URL helpUrl = HelpDialog.class.getResource("/help.jpg");
 
+        String menuImg = (menuUrl != null) ? menuUrl.toExternalForm() : "";
+        String settingsImg = (settingsUrl != null) ? settingsUrl.toExternalForm() : "";
+        String helpImg = (helpUrl != null) ? helpUrl.toExternalForm() : "";
+        
+        if (menuUrl == null) {
+            System.err.println("ERRO de Recurso: Imagem 'menu.jpg' não encontrada no classpath.");
+        }
 
 // JTextPane com HTML
         JTextPane textPane = new JTextPane();
