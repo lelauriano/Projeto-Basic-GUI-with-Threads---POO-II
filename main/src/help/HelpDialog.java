@@ -107,4 +107,5 @@ public class HelpDialog {
         dialog.setLocationRelativeTo(parent);
         dialog.setVisible(true);
     }
+
 }
