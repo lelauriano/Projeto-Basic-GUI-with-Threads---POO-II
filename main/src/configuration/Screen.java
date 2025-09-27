@@ -5,6 +5,7 @@ import java.awt.*;
 
 import configuration.AnimatedPanel;
 import configuration.FileHandler;
+import configuration.HelpDialog;
 
 
 public class Screen extends JFrame {
@@ -129,42 +130,14 @@ public class Screen extends JFrame {
         }
     }
 
-    // Diálogos de ajuda e sobre
+    // Diálogo de ajuda personalizado
     private void showHelpDialog() {
-        JDialog dialog = new JDialog(this, "Help", true);
-        dialog.setSize(400, 350);
-        dialog.setLayout(new BorderLayout());
-
-        JLabel imageLabel = new JLabel(new ImageIcon("help.png"));
-        JTextArea textArea = new JTextArea(
-                "This application shows:\n" +
-                        "- File Reading\n" +
-                        "- Threads with animations\n" +
-                        "- Personalizing background\n" +
-                        "- Menus and dialogs usage\n\n" +
-                        "Left click to change background color.\n" +
-                        "Right click to alternate between circles and squares."
-        );
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
-        textArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(textArea);
-
-        JButton closeButton = new JButton("Close");
-        closeButton.addActionListener(e -> dialog.dispose());
-
-        dialog.add(imageLabel, BorderLayout.NORTH);
-        dialog.add(scrollPane, BorderLayout.CENTER);
-        dialog.add(closeButton, BorderLayout.SOUTH);
-
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
+        HelpDialog.showHelp(this);
     }
 
+    // Diálogo "Sobre"
     private void showAboutDialog() {
-        JOptionPane.showMessageDialog(this,
-                "Projeto Basic GUI with Threads\nVersão 1.0\nAutores: Beatriz, Caio, Giovanni, Julia, Leticia e Rafael",
-                "About", JOptionPane.INFORMATION_MESSAGE);
+        HelpDialog.showAbout(this);
     }
 
     private void setStatus(String msg) {
