@@ -12,9 +12,9 @@ public class HelpDialog {
         dialog.setLayout(new BorderLayout());
         
         // Getting images from resources for HTML
-        String menuImg = HelpDialog.class.getResource("/menu.jpg").toExternalForm();
-        String settingsImg = HelpDialog.class.getResource("/settings.jpg").toExternalForm();
-        String helpImg = HelpDialog.class.getResource("/help.jpg").toExternalForm();
+        String menuImg = HelpDialog.class.getResource("/resources/menu.jpg").toExternalForm();
+        String settingsImg = HelpDialog.class.getResource("/resources/settings.jpg").toExternalForm();
+        String helpImg = HelpDialog.class.getResource("/resources/help.jpg").toExternalForm();
 
 
 // JTextPane com HTML
