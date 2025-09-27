@@ -11,7 +11,7 @@ public class HelpDialog {
         dialog.setSize(400, 350);
         dialog.setLayout(new BorderLayout());
 
-// JTextPane com HTML
+        // JTextPane com HTML
         JTextPane textPane = new JTextPane();
         textPane.setContentType("text/html");
         textPane.setText(
@@ -50,6 +50,8 @@ public class HelpDialog {
                 "</body>" +
             "</html>"
         );
+        
+        //JScrollPane na textPane
         textPane.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textPane);
 
@@ -82,7 +84,7 @@ public class HelpDialog {
                     "* Course: Object Oriented Programming II" +
                 "</body>" +
             "</html>",
-                SwingConstants.CENTER
+            SwingConstants.CENTER
         );
 
         // Close button
