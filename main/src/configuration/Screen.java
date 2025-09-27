@@ -1,20 +1,25 @@
+package configuration;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
+
 import configuration.AnimatedPanel;
+import configuration.FileHandler;
+
 
 public class Screen extends JFrame {
+
     private JTextArea fileTextArea;
     private JLabel statusBar;
     private AnimatedPanel animatedPanel;
+    private FileHandler fileHandler; // nossa nova classe
 
     public Screen() {
         super("Basic GUI with Threads");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(800, 600);
         setLocationRelativeTo(null);
-        setIconImage(new ImageIcon("icon.png").getImage()); // Coloque um ícone chamado icon.png na pasta do projeto
+        setIconImage(new ImageIcon("icon.png").getImage());
 
         // Animated background
         animatedPanel = new AnimatedPanel();
@@ -33,6 +38,9 @@ public class Screen extends JFrame {
         statusBar = new JLabel("Ready");
         add(statusBar, BorderLayout.SOUTH);
 
+
+        fileHandler = new FileHandler(fileTextArea, statusBar); //iniciando a aba arquivos (File Handler)
+
         // Menu bar
         setJMenuBar(createMenuBar());
 
@@ -42,25 +50,27 @@ public class Screen extends JFrame {
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
 
-        // Arquivo
-        JMenu fileMenu = new JMenu("file");
+        // Menu Arquivo
+        JMenu fileMenu = new JMenu("File");
         JMenuItem openItem = new JMenuItem("Open file");
         JMenuItem closeItem = new JMenuItem("Close file");
-        JMenuItem exitItem = new JMenuItem("exit");
+        JMenuItem exitItem = new JMenuItem("Exit");
+
         fileMenu.add(openItem);
         fileMenu.add(closeItem);
         fileMenu.addSeparator();
         fileMenu.add(exitItem);
 
-        openItem.addActionListener(e -> openFile());
-        closeItem.addActionListener(e -> fileTextArea.setText(""));
+        // Delegando ações para FileHandler
+        openItem.addActionListener(e -> fileHandler.openFile(this));
+        closeItem.addActionListener(e -> fileHandler.clearFile());
         exitItem.addActionListener(e -> System.exit(0));
 
-        // Configuração
+        // Menu Configuração
         JMenu configMenu = new JMenu("Settings");
-        JMenuItem patternItem = new JMenuItem("patterns");
-        JMenuItem colorItem = new JMenuItem("color");
-        JMenuItem speedItem = new JMenuItem("speed");
+        JMenuItem patternItem = new JMenuItem("Patterns");
+        JMenuItem colorItem = new JMenuItem("Color");
+        JMenuItem speedItem = new JMenuItem("Speed");
         configMenu.add(patternItem);
         configMenu.add(colorItem);
         configMenu.add(speedItem);
@@ -69,10 +79,10 @@ public class Screen extends JFrame {
         colorItem.addActionListener(e -> chooseColor());
         speedItem.addActionListener(e -> chooseSpeed());
 
-        // Ajuda
+        // Menu Ajuda
         JMenu helpMenu = new JMenu("Help");
         JMenuItem helpItem = new JMenuItem("Help");
-        JMenuItem aboutItem = new JMenuItem("Help");
+        JMenuItem aboutItem = new JMenuItem("About");
         helpMenu.add(helpItem);
         helpMenu.add(aboutItem);
 
@@ -86,76 +96,58 @@ public class Screen extends JFrame {
         return menuBar;
     }
 
-    // Abrir arquivo
-    private void openFile() {
-        JFileChooser chooser = new JFileChooser();
-        int result = chooser.showOpenDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File file = chooser.getSelectedFile();
-            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                fileTextArea.read(reader, null);
-                setStatus("File Charged: " + file.getName());
-            } catch (Exception ex) {
-                setStatus("Error reading file");
-            }
-        }
-    }
-
-    // Configuração de padrão
+    // Métodos de configuração do AnimatedPanel
     private void choosePattern() {
         String[] options = {"Circles", "Squares"};
         String pattern = (String) JOptionPane.showInputDialog(
-                this, "Choose the patterns:", "patterns",
+                this, "Choose the pattern:", "Patterns",
                 JOptionPane.QUESTION_MESSAGE, null, options, animatedPanel.getPattern());
         if (pattern != null) {
             animatedPanel.setPattern(pattern);
-            setStatus("Patterns changed for: " + pattern);
+            setStatus("Pattern changed to: " + pattern);
         }
     }
 
-    // Configuração de cor
     private void chooseColor() {
-        Color color = JColorChooser.showDialog(this, "Choose the color", animatedPanel.getColor());
+        Color color = JColorChooser.showDialog(this, "Choose color", animatedPanel.getColor());
         if (color != null) {
             animatedPanel.setColor(color);
             setStatus("Color changed");
         }
     }
 
-    // Configuração de velocidade
     private void chooseSpeed() {
-        String speedStr = JOptionPane.showInputDialog(this, "Speed (ms by frame):", animatedPanel.getSpeed());
+        String speedStr = JOptionPane.showInputDialog(this, "Speed (ms per frame):", animatedPanel.getSpeed());
         if (speedStr != null) {
             try {
                 int speed = Integer.parseInt(speedStr);
                 animatedPanel.setSpeed(speed);
-                setStatus("Speed changed for: " + speed + " ms");
+                setStatus("Speed changed to: " + speed + " ms");
             } catch (NumberFormatException ex) {
                 setStatus("Invalid value");
             }
         }
     }
 
-    // Diálogo de ajuda personalizado
+    // Diálogos de ajuda e sobre
     private void showHelpDialog() {
         JDialog dialog = new JDialog(this, "Help", true);
         dialog.setSize(400, 350);
         dialog.setLayout(new BorderLayout());
 
-        JLabel imageLabel = new JLabel(new ImageIcon("help.png")); // Coloque help.png na pasta do projeto
+        JLabel imageLabel = new JLabel(new ImageIcon("help.png"));
         JTextArea textArea = new JTextArea(
                 "This application shows:\n" +
-                "- FIle Reading\n" +
-                "- Threads with animations\n" +
-                "- Personalizing background\n" +
-                "- Menus and dialogs uses\n\n" +
-                "Click with the left botton to change the backgroubd color.\n" +
-                "Click with the right botton to altern between circles and squares."
+                        "- File Reading\n" +
+                        "- Threads with animations\n" +
+                        "- Personalizing background\n" +
+                        "- Menus and dialogs usage\n\n" +
+                        "Left click to change background color.\n" +
+                        "Right click to alternate between circles and squares."
         );
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.setEditable(false);
-
         JScrollPane scrollPane = new JScrollPane(textArea);
 
         JButton closeButton = new JButton("Close");
@@ -169,14 +161,12 @@ public class Screen extends JFrame {
         dialog.setVisible(true);
     }
 
-    // Diálogo "Sobre"
     private void showAboutDialog() {
         JOptionPane.showMessageDialog(this,
-                "Projeto Basic GUI with Threads\nVersão 1.0\nAutors: Beatriz,Caio, Giovanni,Julia, Leticia and Rafael",
-                "Sobre", JOptionPane.INFORMATION_MESSAGE);
+                "Projeto Basic GUI with Threads\nVersão 1.0\nAutores: Beatriz, Caio, Giovanni, Julia, Leticia e Rafael",
+                "About", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    // Atualiza status
     private void setStatus(String msg) {
         statusBar.setText(msg);
     }
