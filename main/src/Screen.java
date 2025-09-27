@@ -1,11 +1,9 @@
-package configuration;
-
 import javax.swing.*;
 import java.awt.*;
 
 import configuration.AnimatedPanel;
-import configuration.FileHandler;
-import configuration.HelpDialog;
+import file.FileHandler;
+import help.HelpDialog;
 
 
 public class Screen extends JFrame {

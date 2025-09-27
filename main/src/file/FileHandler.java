@@ -1,4 +1,4 @@
-package configuration;
+package file;
 
 import javax.swing.*;
 import java.io.*;

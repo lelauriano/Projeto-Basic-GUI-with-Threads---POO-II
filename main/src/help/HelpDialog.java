@@ -1,4 +1,4 @@
-package configuration;
+package help;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,10 +8,16 @@ public class HelpDialog {
     // Help dialog
     public static void showHelp(JFrame parent) {
         JDialog dialog = new JDialog(parent, "Help", true);
-        dialog.setSize(400, 350);
+        dialog.setSize(800, 500);
         dialog.setLayout(new BorderLayout());
+        
+        // Getting images from resources for HTML
+        String menuImg = HelpDialog.class.getResource("/menu.jpg").toExternalForm();
+        String settingsImg = HelpDialog.class.getResource("/settings.jpg").toExternalForm();
+        String helpImg = HelpDialog.class.getResource("/help.jpg").toExternalForm();
 
-        // JTextPane com HTML
+
+// JTextPane com HTML
         JTextPane textPane = new JTextPane();
         textPane.setContentType("text/html");
         textPane.setText(
@@ -31,27 +37,25 @@ public class HelpDialog {
 
                     "<h2 style='text-align:center;'>Explanation of menu options:</h2>" + 
                     "<h2>File Menu:</h2>" +
-                    "<p><img src='" + HelpDialog.class.getResource("menu.jpg") + "' ><br>" +
+                    "<p><img src='" + menuImg + "' ><br>" +
                     "<b>Open File:</b> Select and display a text file.<br>" +
                     "<b>Close File:</b> Clear the text area.<br>" +
                     "<b>Exit:</b> Close the application.</p>" +
 
                     "<h2>Settings Menu:</h2>" +
-                    "<p><img src='" + HelpDialog.class.getResource("settings.jpg") + "' ><br>" +
+                    "<p><img src='" + settingsImg + "' ><br>" +
                     "<b>Patterns:</b> Choose the background pattern.<br>" +
                     "<b>Colors:</b> Change the background color.<br>" +
                     "<b>Speed:</b> Adjust animation speed.</p>" +
 
                     "<h2>Help Menu:</h2>" +
-                    "<p><img src='" + HelpDialog.class.getResource("help.jpg") + "' ><br>" +
+                    "<p><img src='" + helpImg + "' ><br>" +
                     "<b>Help:</b> Open this dialog.<br>" +
                     "<b>About:</b> Show project info.</p>" +
 
                 "</body>" +
             "</html>"
         );
-        
-        //JScrollPane na textPane
         textPane.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textPane);
 
@@ -60,7 +64,6 @@ public class HelpDialog {
         closeButton.addActionListener(e -> dialog.dispose());
 
         // Add to layout
-        dialog.add(imageLabel, BorderLayout.NORTH);
         dialog.add(scrollPane, BorderLayout.CENTER);
         dialog.add(closeButton, BorderLayout.SOUTH);
 
@@ -71,20 +74,26 @@ public class HelpDialog {
     // About dialog
     public static void showAbout(JFrame parent) {
         JDialog dialog = new JDialog(parent, "About", true);
-        dialog.setSize(350, 200);
+        dialog.setSize(400, 400);
         dialog.setLayout(new BorderLayout());
 
         // Info text
         JLabel infoLabel = new JLabel(
             "<html>" +
                 "<body style='font-family:sans-serif; font-size:12px;'>" +
-                    "* Basic GUI with Threads<br>" +
-                    "* Authors: Beatriz, Caio, Giovanni, Julia, Leticia, Rafael<br>" +
-                    "* Year: 2025<br>" +
+                    "* Basic GUI with Threads<br><br>" +
+                    "* Version: 1<br><br>" +
+                    "* Authors: <br>Beatriz Cristina De Oliveira Jatobá 240421"
+                    + "<br>Caio Vinicius Pereira Sousa 260996"
+                    + "<br>Giovanni Da Silva Virginio Brandão 288839"
+                    + "<br>Julia Fernandes dos Santos 249661"
+                    + "<br>Leticia Lauriano De Oliveira 173008"
+                    + "<br>Rafael Guilherme Da Silva 260684 <br><br>" +
+                    "* Year: 2025<br><br>" +
                     "* Course: Object Oriented Programming II" +
                 "</body>" +
             "</html>",
-            SwingConstants.CENTER
+                SwingConstants.CENTER
         );
 
         // Close button
