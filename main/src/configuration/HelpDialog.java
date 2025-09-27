@@ -72,7 +72,7 @@ public class HelpDialog {
     // About dialog
     public static void showAbout(JFrame parent) {
         JDialog dialog = new JDialog(parent, "About", true);
-        dialog.setSize(400, 350);
+        dialog.setSize(400, 400);
         dialog.setLayout(new BorderLayout());
 
         // Info text
@@ -80,6 +80,7 @@ public class HelpDialog {
             "<html>" +
                 "<body style='font-family:sans-serif; font-size:12px;'>" +
                     "* Basic GUI with Threads<br><br>" +
+                    "* Version: 1<br><br>" +
                     "* Authors: <br>Beatriz Cristina De Oliveira Jatobá - 240421 <br>Caio Vinicius Pereira Sousa - 260996 <br>Giovanni Da Silva Virginio Brandão - 288839 <br>Julia Fernandes dos Santos - 249661 <br>Leticia Lauriano De Oliveira - 173008 <br>Rafael Guilherme Da Silva - 260684 <br><br>" +
                     "* Year: 2025<br><br>" +
                     "* Course: Object Oriented Programming II" +
@@ -100,3 +101,4 @@ public class HelpDialog {
         dialog.setVisible(true);
     }
 }
+
