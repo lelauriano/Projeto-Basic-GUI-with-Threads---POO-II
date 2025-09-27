@@ -11,9 +11,6 @@ public class HelpDialog {
         dialog.setSize(400, 350);
         dialog.setLayout(new BorderLayout());
 
-        // Image
-        JLabel imageLabel = new JLabel(new ImageIcon("help.png"));
-
 // JTextPane com HTML
         JTextPane textPane = new JTextPane();
         textPane.setContentType("text/html");
