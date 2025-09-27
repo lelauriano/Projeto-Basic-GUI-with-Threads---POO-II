@@ -1,6 +1,10 @@
+import java.awt.Color;
+
 public interface ConfigurationMenuListener {
-    void onPatternChange();
-    void onColorChange();
-    void onSpeedChange();
+    void onPatternChange(String newPattern);
+    void onColorChange(Color newColor);
+    void onSpeedChange(int newSpeed);
+    void onAnimationToggle(boolean running);
+    void onReset();
 }
 

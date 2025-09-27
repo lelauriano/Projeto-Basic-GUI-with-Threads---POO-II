@@ -5,8 +5,7 @@ public class AnimatedPanel extends JPanel implements Runnable {
 
     private volatile String pattern = "Circles";
     private volatile Color color = Color.CYAN;
-    private volatile int speed = 50;//// ms per frame
-
+    private volatile int speed = 50; // ms per frame
     private volatile boolean running = false;
     private Thread animationThread;
 
@@ -15,11 +14,11 @@ public class AnimatedPanel extends JPanel implements Runnable {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 if (e.getButton() == java.awt.event.MouseEvent.BUTTON1) {
-                    setRandomColor(); // left click → random color
+                    setRandomColor();
                 } else if (e.getButton() == java.awt.event.MouseEvent.BUTTON3) {
-                    setPattern(getPattern().equals("Circles") ? "Squares" : "Circles");// right click → toggle Circles/Squares pattern
+                    setPattern(getPattern().equals("Circles") ? "Squares" : "Circles");
                 }
-                repaint(); 
+                repaint();
             }
         });
     }
@@ -31,20 +30,15 @@ public class AnimatedPanel extends JPanel implements Runnable {
         java.util.Random rand = new java.util.Random();
 
         g2d.setColor(this.color);
-
         for (int i = 0; i < 50; i++) {
             int x = rand.nextInt(Math.max(1, getWidth()));
             int y = rand.nextInt(Math.max(1, getHeight()));
             int size = rand.nextInt(40) + 10;
 
-            switch (this.pattern) {
-                case "Squares":
-                    g2d.fillRect(x, y, size, size);
-                    break;
-                case "Circles":
-                default:
-                    g2d.fillOval(x, y, size, size);
-                    break;
+            if ("Squares".equals(pattern)) {
+                g2d.fillRect(x, y, size, size);
+            } else {
+                g2d.fillOval(x, y, size, size);
             }
         }
     }
@@ -61,9 +55,8 @@ public class AnimatedPanel extends JPanel implements Runnable {
         }
     }
 
-    //  control thread
     public void startAnimation() {
-        if (animationThread == null || !running) {
+        if (!running) {
             running = true;
             animationThread = new Thread(this);
             animationThread.start();
@@ -77,6 +70,7 @@ public class AnimatedPanel extends JPanel implements Runnable {
             animationThread = null;
         }
     }
+
     public void setPattern(String newPattern) {
         this.pattern = newPattern;
     }
@@ -96,11 +90,7 @@ public class AnimatedPanel extends JPanel implements Runnable {
     }
 
     public void setRandomColor() {
-        this.color = new Color(
-                (float) Math.random(),
-                (float) Math.random(),
-                (float) Math.random()
-        );
+        this.color = new Color((float)Math.random(), (float)Math.random(), (float)Math.random());
     }
 
     public void setSpeed(int newSpeed) {
@@ -115,4 +105,3 @@ public class AnimatedPanel extends JPanel implements Runnable {
         return running;
     }
 }
-
