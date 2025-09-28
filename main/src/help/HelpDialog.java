@@ -3,6 +3,8 @@ package help;
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
 
 public class HelpDialog {
 
@@ -20,14 +22,22 @@ public class HelpDialog {
         String menuImg = (menuUrl != null) ? menuUrl.toExternalForm() : "";
         String settingsImg = (settingsUrl != null) ? settingsUrl.toExternalForm() : "";
         String helpImg = (helpUrl != null) ? helpUrl.toExternalForm() : "";
+   
+        JTextPane textPane = new JTextPane();
+        textPane.setEditable(false);
         
-        if (menuUrl == null) {
-            System.err.println("ERRO de Recurso: Imagem 'menu.jpg' não encontrada no classpath.");
+        HTMLEditorKit kit = new HTMLEditorKit();
+        textPane.setEditorKit(kit);
+
+        HTMLDocument doc = (HTMLDocument) kit.createDefaultDocument();
+
+        if (menuUrl != null) {
+            doc.setBase(menuUrl);
         }
+        
+        textPane.setDocument(doc);
 
 // JTextPane com HTML
-        JTextPane textPane = new JTextPane();
-        textPane.setContentType("text/html");
         textPane.setText(
             "<html>" +
                 "<body style='font-family:sans-serif; font-size:12px;'>" +
